@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PE Basketball Journal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      sizes="any"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏀</text></svg>"
+    />
+
+    <style>
+      :root {
+        --navy: #16243d;
+        --navy-soft: #2a3c5c;
+        --cream: #f6f3ec;
+        --paper: #fffdf8;
+        --amber: #c5762a;
+        --amber-soft: #e8b87a;
+        --line: #dcd6c8;
+        --text-soft: #6b6657;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        background: var(--cream);
+        color: var(--navy);
+        font-family: "Inter", sans-serif;
+        line-height: 1.6;
+        position: relative;
+      }
+
+      /* basketball court as background, faint */
+      .court-bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .wrap {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 64px 24px 100px;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ---------- header ---------- */
+      header {
+        margin-bottom: 44px;
+      }
+
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--amber);
+        font-weight: 600;
+        margin-bottom: 18px;
+      }
+
+      .eyebrow svg {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+      }
+
+      h1 {
+        font-family: "Fraunces", serif;
+        font-weight: 600;
+        font-size: 44px;
+        letter-spacing: -0.01em;
+        color: var(--navy);
+        margin-bottom: 14px;
+      }
+
+      .intro {
+        font-size: 15.5px;
+        color: var(--text-soft);
+        max-width: 100ch;
+      }
+
+      /* ---------- entry box ---------- */
+      .entry-card {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 28px;
+      }
+
+      .entry-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+
+      .entry-date-input {
+        font-family: "Fraunces", serif;
+        font-size: 19px;
+        font-weight: 500;
+        color: var(--navy);
+        border: none;
+        background: transparent;
+        outline: none;
+      }
+
+      .tag {
+        font-size: 11.5px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        border-radius: 100px;
+        background: rgba(197, 118, 42, 0.1);
+        color: var(--amber);
+        border: none;
+        cursor: pointer;
+      }
+
+      .session-input {
+        width: 100%;
+        font-size: 12.5px;
+        color: var(--text-soft);
+        border: none;
+        background: transparent;
+        outline: none;
+        margin-bottom: 16px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .entry-textarea {
+        width: 100%;
+        min-height: 320px;
+        border: none;
+        outline: none;
+        resize: vertical;
+        background: transparent;
+        font-family: "Inter", sans-serif;
+        font-size: 15px;
+        line-height: 1.75;
+        color: var(--navy-soft);
+        text-align: justify;
+      }
+
+      .entry-textarea::placeholder {
+        color: #b3ad9b;
+      }
+
+      footer {
+        margin-top: 48px;
+        padding-top: 22px;
+        border-top: 1px solid var(--line);
+        font-size: 13px;
+        color: var(--text-soft);
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      @media (max-width: 520px) {
+        h1 {
+          font-size: 34px;
+        }
+        .entry-card {
+          padding: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <svg
+      class="court-bg"
+      viewBox="0 0 1000 1400"
+      preserveAspectRatio="xMidYMid slice"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g fill="none" stroke="#16243d" stroke-width="2.5" opacity="0.05">
+        <!-- outer boundary -->
+        <rect x="60" y="40" width="880" height="1320" />
+        <!-- halfcourt line -->
+        <line x1="60" y1="700" x2="940" y2="700" />
+        <!-- center circle -->
+        <circle cx="500" cy="700" r="110" />
+        <circle cx="500" cy="700" r="6" />
+        <!-- top key -->
+        <rect x="350" y="40" width="300" height="240" />
+        <circle cx="500" cy="280" r="110" />
+        <path d="M 390 40 A 230 230 0 0 0 610 40" />
+        <!-- top free throw rim/basket -->
+        <circle cx="500" cy="130" r="28" />
+        <line x1="430" y1="100" x2="570" y2="100" />
+        <!-- top three point arc -->
+        <path d="M 100 40 L 100 380 A 400 400 0 0 0 900 380 L 900 40" />
+        <!-- bottom key -->
+        <rect x="350" y="1120" width="300" height="240" />
+        <circle cx="500" cy="1120" r="110" />
+        <path d="M 390 1360 A 230 230 0 0 1 610 1360" />
+        <!-- bottom free throw rim/basket -->
+        <circle cx="500" cy="1270" r="28" />
+        <line x1="430" y1="1300" x2="570" y2="1300" />
+        <!-- bottom three point arc -->
+        <path d="M 100 1360 L 100 1020 A 400 400 0 0 1 900 1020 L 900 1360" />
+      </g>
+    </svg>
+
+    <div class="wrap">
+      <header>
+        <div class="eyebrow">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <circle cx="12" cy="12" r="9" />
+            <path
+              d="M3 12h18M12 3c2.5 2.5 2.5 15.5 0 18M12 3c-2.5 2.5-2.5 15.5 0 18"
+            />
+          </svg>
+          PE 2 — Basic Basketball for Women
+        </div>
+        <h1>Journal Log</h1>
+        <p class="intro">
+          My PE 2 BS-W JOURNAL! A running record of my basketball experiences
+          this midyear — what we drilled, what clicked, what didn't, and what I
+          want to work on next.
+        </p>
+      </header>
+
+      <div class="entry-card">
+        <div class="entry-top">
+          <input class="entry-date-input" type="text" value="JOURNAL 1" />
+        </div>
+        <input
+          class="session-input"
+          type="text"
+          value="Written by Christina Ysabelle Budikey | June 30, 2026"
+        />
+        <textarea class="entry-textarea">
+For the past week of playing basketball, I have realized that I have forgotten most of what I learned a year ago. While I still remember how to dribble and shoot, I have a lot more to learn when it comes to team tactics and defense. Even though I need more training on these skills, being with my classmates motivates me to do my best, despite the hot and humid environment. Whenever the ball goes through the hoop, I feel proud because I used to tell myself that I was horrible at shooting.
+
+I really want to master my dribbling; surprisingly, my right hand has more control over the ball than my left, even though I am left-handed. I also want to improve my shooting, especially in a game setting, as I have a tendency to panic and rush my shot with less-than-ideal form. Having these goals motivates me to work harder because I truly enjoy playing the sport.
+    </textarea
+        >
+      </div>
+
+      <footer>
+        <span>PE 2 BS-W</span>
+        <span>Last updated on June 30, 2026</span>
+      </footer>
+    </div>
+  </body>
+</html>
