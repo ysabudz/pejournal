@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -6,7 +6,7 @@
     <title>PE Basketball Journal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link
@@ -15,7 +15,6 @@
       sizes="any"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏀</text></svg>"
     />
-
     <style>
       :root {
         --navy: #16243d;
@@ -27,210 +26,421 @@
         --line: #dcd6c8;
         --text-soft: #6b6657;
       }
-
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
-
       html,
       body {
         height: 100%;
       }
-
       body {
         background: var(--cream);
         color: var(--navy);
         font-family: "Inter", sans-serif;
         line-height: 1.6;
         position: relative;
+        overflow-x: hidden;
       }
 
-      /* basketball court as background, faint */
       .court-bg {
         position: fixed;
         inset: 0;
         z-index: 0;
         pointer-events: none;
+        width: 100%;
+        height: 100%;
       }
 
-      .wrap {
-        max-width: 680px;
-        margin: 0 auto;
-        padding: 64px 24px 100px;
+      .hero {
         position: relative;
         z-index: 1;
-      }
-
-      /* ---------- header ---------- */
-      header {
-        margin-bottom: 44px;
-      }
-
-      .eyebrow {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 13px;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--amber);
-        font-weight: 600;
-        margin-bottom: 18px;
-      }
-
-      .eyebrow svg {
-        width: 14px;
-        height: 14px;
-        flex-shrink: 0;
+        background: var(--navy);
+        padding: clamp(32px, 6vw, 48px) 24px clamp(48px, 8vw, 72px);
+        overflow: hidden;
       }
 
       h1 {
         font-family: "Fraunces", serif;
+        font-weight: 500;
+        font-size: clamp(36px, 7vw, 52px);
+        letter-spacing: -0.02em;
+        color: #fff;
+        line-height: 1.05;
+        margin-bottom: 16px;
+      }
+
+      h1 em {
+        font-style: italic;
+        color: var(--amber-soft);
+        font-weight: 300;
+      }
+
+      .hero-court {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        width: 100%;
+        height: 100%;
+      }
+      .hero-inner {
+        max-width: 680px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+      }
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--amber-soft);
         font-weight: 600;
-        font-size: 44px;
-        letter-spacing: -0.01em;
-        color: var(--navy);
-        margin-bottom: 14px;
+        margin-bottom: 20px;
+      }
+      .eyebrow svg {
+        width: 13px;
+        height: 13px;
+        flex-shrink: 0;
       }
 
       .intro {
-        font-size: 15.5px;
-        color: var(--text-soft);
-        max-width: 100ch;
+        font-size: 14.5px;
+        color: rgba(255, 255, 255, 0.55);
+        max-width: 52ch;
+        line-height: 1.7;
+      }
+      .author-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 24px;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 100px;
+        padding: 6px 14px 6px 6px;
+        font-size: 12.5px;
+        color: rgba(255, 255, 255, 0.6);
+      }
+      .author-chip .monogram {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: var(--amber);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 11px;
+        color: #fff;
+        flex-shrink: 0;
       }
 
-      /* ---------- entry box ---------- */
+      .body-wrap {
+        max-width: 950px;
+        width: min(100%, 950px);
+        margin: -36px auto 0;
+        padding: 0 clamp(12px, 4vw, 24px) 80px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .carousel-track-wrap {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        overflow: hidden;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        box-shadow: 0 4px 32px rgba(22, 36, 61, 0.1);
+      }
+
+      .carousel-track {
+        display: flex;
+        transition: transform 0.42s cubic-bezier(0.65, 0, 0.35, 1);
+      }
+
       .entry-card {
         background: var(--paper);
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 28px;
+
+        width: 100%;
+        min-width: 100%;
+
+        height: clamp(420px, 65vh, 500px);
+
+        flex-shrink: 0;
+
+        padding: clamp(20px, 5vw, 30px);
+
+        display: flex;
+        flex-direction: column;
       }
 
       .entry-top {
         display: flex;
         justify-content: space-between;
-        align-items: baseline;
+        align-items: center;
         flex-wrap: wrap;
         gap: 10px;
         margin-bottom: 6px;
       }
-
-      .entry-date-input {
+      .entry-label {
         font-family: "Fraunces", serif;
-        font-size: 19px;
+        font-size: 20px;
         font-weight: 500;
         color: var(--navy);
-        border: none;
-        background: transparent;
-        outline: none;
       }
-
-      .tag {
-        font-size: 11.5px;
-        font-weight: 600;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        padding: 4px 10px;
-        border-radius: 100px;
-        background: rgba(197, 118, 42, 0.1);
-        color: var(--amber);
-        border: none;
-        cursor: pointer;
-      }
-
-      .session-input {
-        width: 100%;
-        font-size: 12.5px;
+      .entry-meta {
+        font-size: 12px;
         color: var(--text-soft);
-        border: none;
-        background: transparent;
-        outline: none;
-        margin-bottom: 16px;
-        padding-bottom: 14px;
+        margin-bottom: 18px;
+        padding-bottom: 16px;
         border-bottom: 1px solid var(--line);
       }
-
-      .entry-textarea {
-        width: 100%;
-        min-height: 320px;
-        border: none;
-        outline: none;
-        resize: vertical;
-        background: transparent;
-        font-family: "Inter", sans-serif;
+      .entry-body {
+        flex: 1;
+        min-height: 0;
         font-size: 15px;
-        line-height: 1.75;
+        line-height: 1.8;
         color: var(--navy-soft);
+
         text-align: justify;
+
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        padding-right: 12px;
+
+        scrollbar-width: thin;
+        scrollbar-color: #d6cdbd transparent;
       }
 
-      .entry-textarea::placeholder {
-        color: #b3ad9b;
+      .entry-body p {
+        margin-bottom: 18px;
+      }
+      .entry-body::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .entry-body::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .entry-body::-webkit-scrollbar-thumb {
+        background: #d5cdbd;
+        border-radius: 100px;
+      }
+
+      .entry-body::-webkit-scrollbar-thumb:hover {
+        background: var(--amber);
+      }
+
+      .nav-row {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        margin-top: 20px;
+      }
+      .nav-btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 100px;
+        padding: 9px 18px;
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--navy);
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          border-color 0.15s,
+          opacity 0.15s;
+        font-family: "Inter", sans-serif;
+      }
+      .nav-btn:hover:not(:disabled) {
+        background: var(--navy);
+        color: #fff;
+        border-color: var(--navy);
+      }
+      .nav-btn:disabled {
+        opacity: 0.3;
+        cursor: default;
+      }
+      .nav-btn svg {
+        width: 14px;
+        height: 14px;
+      }
+      .dots {
+        display: flex;
+        gap: 7px;
+        align-items: center;
+      }
+      .dot-btn {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--line);
+        border: none;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          transform 0.2s;
+        padding: 0;
+      }
+      .dot-btn.active {
+        background: var(--amber);
+        transform: scale(1.35);
       }
 
       footer {
-        margin-top: 48px;
-        padding-top: 22px;
+        margin-top: 44px;
+        padding-top: 20px;
         border-top: 1px solid var(--line);
-        font-size: 13px;
+        font-size: 12.5px;
         color: var(--text-soft);
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
         gap: 10px;
       }
-
       @media (max-width: 520px) {
-        h1 {
-          font-size: 34px;
+        .hero {
+          padding: 40px 18px 60px;
         }
+
+        .intro {
+          font-size: 14px;
+        }
+
+        .author-chip {
+          font-size: 11px;
+        }
+
         .entry-card {
-          padding: 22px;
+          height: 70vh;
+          min-height: 420px;
+          padding: 20px;
+        }
+
+        .entry-body {
+          font-size: 14px;
+          line-height: 1.7;
+        }
+
+        .nav-btn {
+          padding: 8px 14px;
         }
       }
     </style>
   </head>
   <body>
+    <!--
+  COURT DIMENSIONS (FIBA proportional):
+  ViewBox: 0 0 940 500
+  Court rect: x=20 y=20 w=900 h=460  → center (470, 250)
+  Scale: 900px = 28m, 460px = 15m
+  Basket left:  (72, 250)   [1.575/28 * 900 + 20 ≈ 72]
+  Basket right: (868, 250)
+  Key width: 4.9/15*460 ≈ 150px → y=175 to y=325
+  Key length: 5.8/28*900 ≈ 186px
+  FT circle radius: 1.8/15*460 ≈ 55px
+  3pt radius: 6.75/15*460 ≈ 207px
+  3pt straight section y: 0.9/15*460 ≈ 27.6 → y=48, y=452
+  3pt arc starts at x ≈ 72 + sqrt(207²-(250-48)²) ≈ 72+45 = 117
+-->
+
+    <!-- Full-page court background -->
     <svg
       class="court-bg"
-      viewBox="0 0 1000 1400"
-      preserveAspectRatio="xMidYMid slice"
+      viewBox="0 0 940 500"
+      preserveAspectRatio="xMidYMid meet"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g fill="none" stroke="#16243d" stroke-width="2.5" opacity="0.05">
-        <!-- outer boundary -->
-        <rect x="60" y="40" width="880" height="1320" />
-        <!-- halfcourt line -->
-        <line x1="60" y1="700" x2="940" y2="700" />
-        <!-- center circle -->
-        <circle cx="500" cy="700" r="110" />
-        <circle cx="500" cy="700" r="6" />
-        <!-- top key -->
-        <rect x="350" y="40" width="300" height="240" />
-        <circle cx="500" cy="280" r="110" />
-        <path d="M 390 40 A 230 230 0 0 0 610 40" />
-        <!-- top free throw rim/basket -->
-        <circle cx="500" cy="130" r="28" />
-        <line x1="430" y1="100" x2="570" y2="100" />
-        <!-- top three point arc -->
-        <path d="M 100 40 L 100 380 A 400 400 0 0 0 900 380 L 900 40" />
-        <!-- bottom key -->
-        <rect x="350" y="1120" width="300" height="240" />
-        <circle cx="500" cy="1120" r="110" />
-        <path d="M 390 1360 A 230 230 0 0 1 610 1360" />
-        <!-- bottom free throw rim/basket -->
-        <circle cx="500" cy="1270" r="28" />
-        <line x1="430" y1="1300" x2="570" y2="1300" />
-        <!-- bottom three point arc -->
-        <path d="M 100 1360 L 100 1020 A 400 400 0 0 1 900 1020 L 900 1360" />
+      <g fill="none" stroke="#16243d" stroke-width="2" opacity="0.07">
+        <!-- boundary -->
+        <rect x="20" y="20" width="900" height="460" />
+        <!-- half-court line -->
+        <line x1="470" y1="20" x2="470" y2="480" />
+        <!-- center circle + dot -->
+        <circle cx="470" cy="250" r="55" />
+        <line x1="470" y1="220" x2="470" y2="280" />
+
+        <!-- ── LEFT SIDE ── -->
+        <!-- key rectangle -->
+        <rect x="20" y="175" width="186" height="150" />
+        <!-- backboard -->
+        <line x1="42" y1="228" x2="42" y2="272" />
+        <!-- basket -->
+        <circle cx="72" cy="250" r="13" />
+        <!-- free throw circle: solid half (toward basket = left half) -->
+        <path d="M 206 195 A 55 55 0 0 0 206 305" />
+        <!-- free throw circle: dashed half (toward center = right half) -->
+        <path d="M 206 195 A 55 55 0 0 1 206 305" stroke-dasharray="5 4" />
+        <!-- 3pt line: straight top -->
+        <line x1="20" y1="48" x2="117" y2="48" />
+        <!-- 3pt arc from top-straight-end to bottom-straight-end, sweeping right around basket -->
+        <path d="M 117 48 A 207 207 0 0 1 117 452" />
+        <!-- 3pt line: straight bottom -->
+        <line x1="117" y1="452" x2="20" y2="452" />
+
+        <!-- ── RIGHT SIDE (mirrored) ── -->
+        <!-- key rectangle -->
+        <rect x="734" y="175" width="186" height="150" />
+        <!-- backboard -->
+        <line x1="898" y1="228" x2="898" y2="272" />
+        <!-- basket -->
+        <circle cx="868" cy="250" r="13" />
+        <!-- free throw circle: solid half (toward basket = right half) -->
+        <path d="M 734 195 A 55 55 0 0 1 734 305" />
+        <!-- free throw circle: dashed half (toward center = left half) -->
+        <path d="M 734 195 A 55 55 0 0 0 734 305" stroke-dasharray="5 4" />
+        <!-- 3pt line: straight top -->
+        <line x1="920" y1="48" x2="823" y2="48" />
+        <!-- 3pt arc -->
+        <path d="M 823 48 A 207 207 0 0 0 823 452" />
+        <!-- 3pt line: straight bottom -->
+        <line x1="823" y1="452" x2="920" y2="452" />
       </g>
     </svg>
 
-    <div class="wrap">
-      <header>
+    <!-- Hero with matching court lines -->
+    <div class="hero">
+      <svg
+        class="hero-court"
+        viewBox="0 0 940 500"
+        preserveAspectRatio="xMidYMid slice"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g fill="none" stroke="#ffffff" stroke-width="2" opacity="0.07">
+          <rect x="20" y="20" width="900" height="460" />
+          <line x1="470" y1="20" x2="470" y2="480" />
+          <circle cx="470" cy="250" r="55" />
+          <line x1="470" y1="220" x2="470" y2="280" />
+          <rect x="20" y="175" width="186" height="150" />
+          <line x1="42" y1="228" x2="42" y2="272" />
+          <circle cx="72" cy="250" r="13" />
+          <path d="M 206 195 A 55 55 0 0 0 206 305" />
+          <path d="M 206 195 A 55 55 0 0 1 206 305" stroke-dasharray="5 4" />
+          <line x1="20" y1="48" x2="117" y2="48" />
+          <path d="M 117 48 A 207 207 0 0 1 117 452" />
+          <line x1="117" y1="452" x2="20" y2="452" />
+          <rect x="734" y="175" width="186" height="150" />
+          <line x1="898" y1="228" x2="898" y2="272" />
+          <circle cx="868" cy="250" r="13" />
+          <path d="M 734 195 A 55 55 0 0 1 734 305" />
+          <path d="M 734 195 A 55 55 0 0 0 734 305" stroke-dasharray="5 4" />
+          <line x1="920" y1="48" x2="823" y2="48" />
+          <path d="M 823 48 A 207 207 0 0 0 823 452" />
+          <line x1="823" y1="452" x2="920" y2="452" />
+        </g>
+      </svg>
+
+      <div class="hero-inner">
         <div class="eyebrow">
           <svg
             viewBox="0 0 24 24"
@@ -245,35 +455,162 @@
           </svg>
           PE 2 — Basic Basketball for Women
         </div>
-        <h1>Journal Log</h1>
+        <h1>Journal <em>Log</em></h1>
         <p class="intro">
-          My PE 2 BS-W JOURNAL! A running record of my basketball experiences
-          this midyear — what we drilled, what clicked, what didn't, and what I
-          want to work on next.
+          A running record of my basketball experiences this midyear — what we
+          drilled, what clicked, what didn't, and what I want to work on next.
         </p>
-      </header>
-
-      <div class="entry-card">
-        <div class="entry-top">
-          <input class="entry-date-input" type="text" value="JOURNAL 1" />
+        <div class="author-chip">
+          <div class="monogram">YB</div>
+          Christina Ysabelle Budikey · PE 2 BS-W
         </div>
-        <input
-          class="session-input"
-          type="text"
-          value="Written by Christina Ysabelle Budikey | June 30, 2026"
-        />
-        <textarea class="entry-textarea">
-For the past week of playing basketball, I have realized that I have forgotten most of what I learned a year ago. While I still remember how to dribble and shoot, I have a lot more to learn when it comes to team tactics and defense. Even though I need more training on these skills, being with my classmates motivates me to do my best, despite the hot and humid environment. Whenever the ball goes through the hoop, I feel proud because I used to tell myself that I was horrible at shooting.
+      </div>
+    </div>
 
-I really want to master my dribbling; surprisingly, my right hand has more control over the ball than my left, even though I am left-handed. I also want to improve my shooting, especially in a game setting, as I have a tendency to panic and rush my shot with less-than-ideal form. Having these goals motivates me to work harder because I truly enjoy playing the sport.
-    </textarea
-        >
+    <!-- Body -->
+    <div class="body-wrap">
+      <div class="carousel-track-wrap">
+        <div class="carousel-track" id="track">
+          <!-- most recent first -->
+          <div class="entry-card">
+            <div class="entry-top">
+              <div class="entry-label">Journal 2</div>
+            </div>
+            <div class="entry-meta">July 10, 2026</div>
+            <div class="entry-body">
+              <p>
+                Practicing basketball individually allowed me to focus heavily
+                on my personal mechanics, primarily shooting and dribbling.
+                However, transitioning to 3x3 games made me realize how many
+                aspects of the sport I have yet to master, communication in
+                particular. I have learned the value of strategizing as a team
+                and reading the game through our collective body language.
+                Furthermore, being part of a team has shown me how our diverse
+                skill sets complement one another. I realized that my teammates
+                often excel where I struggle, allowing us to balance out our
+                individual weaknesses and bring out each other's strengths.
+              </p>
+              <p>
+                Our team finds its strongest synergy when we are on defense.
+                While we still occasionally struggle under pressure when we
+                possess the ball (sometimes letting panic disrupt our passing
+                game), I have noticed a significant improvement in how we handle
+                high-stress moments lately. These minor setbacks can easily be
+                resolved with more practice and in-game experience.
+              </p>
+              <p>
+                Because our team has grown incredibly close, teamwork and
+                cooperation come naturally to us; everyone gives their absolute
+                best effort to execute the specific roles that align with our
+                playing styles. On a personal level, defense is my strongest
+                asset. My classmates often mention how difficult it is to break
+                past my defense or to guard me when I am on the move. While my
+                teammates have pointed out that I excel as the "drive of the
+                game" — acting as the primary ball-handler in the middle to
+                control the pace — I honestly feel I still have room to grow in
+                that role. Moving forward, I want to actively hone my skills by
+                focusing on my blocking and stealing to become a more
+                well-rounded player.
+              </p>
+            </div>
+          </div>
+
+          <!-- older entry, right arrow -->
+          <div class="entry-card">
+            <div class="entry-top">
+              <div class="entry-label">Journal 1</div>
+            </div>
+            <div class="entry-meta">June 30, 2026</div>
+            <div class="entry-body">
+              <p>
+                For the past week of playing basketball, I have realized that I
+                have forgotten most of what I learned a year ago. While I still
+                remember how to dribble and shoot, I have a lot more to learn
+                when it comes to team tactics and defense. Even though I need
+                more training on these skills, being with my classmates
+                motivates me to do my best, despite the hot and humid
+                environment. Whenever the ball goes through the hoop, I feel
+                proud because I used to tell myself that I was horrible at
+                shooting.
+              </p>
+              <p>
+                I really want to master my dribbling; surprisingly, my right
+                hand has more control over the ball than my left, even though I
+                am left-handed. I also want to improve my shooting, especially
+                in a game setting, as I have a tendency to panic and rush my
+                shot with less-than-ideal form. Having these goals motivates me
+                to work harder because I truly enjoy playing the sport.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-row">
+        <button class="nav-btn" id="prevBtn" onclick="move(-1)" disabled>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+          Newer
+        </button>
+        <div class="dots" id="dots"></div>
+        <button class="nav-btn" id="nextBtn" onclick="move(1)">
+          Older
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        </button>
       </div>
 
       <footer>
-        <span>PE 2 BS-W</span>
-        <span>Last updated on June 30, 2026</span>
+        <span>PE 2 BS-W · Midyear 2026</span>
+        <span id="footer-date">Last updated July 7, 2026</span>
       </footer>
     </div>
+
+    <script>
+      const track = document.getElementById("track");
+      const cards = track.querySelectorAll(".entry-card");
+      const dotsContainer = document.getElementById("dots");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const footerDate = document.getElementById("footer-date");
+      const dates = ["July 7, 2026", "June 30, 2026"];
+      let current = 0;
+      const total = cards.length;
+
+      cards.forEach((_, i) => {
+        const d = document.createElement("button");
+        d.className = "dot-btn" + (i === 0 ? " active" : "");
+        d.setAttribute("aria-label", "Go to entry " + (i + 1));
+        d.onclick = () => goTo(i);
+        dotsContainer.appendChild(d);
+      });
+
+      function goTo(n) {
+        current = n;
+        track.style.transform = `translateX(-${current * 100}%)`;
+        dotsContainer
+          .querySelectorAll(".dot-btn")
+          .forEach((d, i) => d.classList.toggle("active", i === current));
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === total - 1;
+        footerDate.textContent = "Last updated " + dates[current];
+      }
+
+      function move(dir) {
+        goTo(Math.max(0, Math.min(total - 1, current + dir)));
+      }
+    </script>
   </body>
 </html>
