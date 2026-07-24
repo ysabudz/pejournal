@@ -165,16 +165,11 @@
 
       .entry-card {
         background: var(--paper);
-
         width: 100%;
         min-width: 100%;
-
         height: clamp(420px, 65vh, 500px);
-
         flex-shrink: 0;
-
         padding: clamp(20px, 5vw, 30px);
-
         display: flex;
         flex-direction: column;
       }
@@ -206,14 +201,10 @@
         font-size: 15px;
         line-height: 1.8;
         color: var(--navy-soft);
-
         text-align: justify;
-
         overflow-y: auto;
         overflow-x: hidden;
-
         padding-right: 12px;
-
         scrollbar-width: thin;
         scrollbar-color: #d6cdbd transparent;
       }
@@ -297,6 +288,146 @@
         transform: scale(1.35);
       }
 
+      /* ── Mini shoot-the-ball game ── */
+      .game-section {
+        max-width: 600px;
+        margin: 56px auto 0;
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        box-shadow: 0 4px 32px rgba(22, 36, 61, 0.08);
+        padding: clamp(20px, 5vw, 28px);
+      }
+      .game-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 4px;
+      }
+      .game-title {
+        font-family: "Fraunces", serif;
+        font-size: 19px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .game-sub {
+        font-size: 12.5px;
+        color: var(--text-soft);
+        margin-bottom: 16px;
+      }
+      .game-stats {
+        display: flex;
+        gap: 18px;
+        font-size: 12.5px;
+        color: var(--text-soft);
+      }
+      .game-stats b {
+        color: var(--navy);
+        font-size: 15px;
+        font-family: "Fraunces", serif;
+        font-weight: 600;
+        margin-right: 4px;
+      }
+      .game-court {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        margin-top: 16px;
+        border-radius: 10px;
+        background: linear-gradient(180deg, #1c2f4f 0%, var(--navy) 100%);
+        overflow: hidden;
+        cursor: crosshair;
+        touch-action: none;
+      }
+      .game-court svg.court-lines {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .hoop-wrap {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+      }
+      .game-ball {
+        position: absolute;
+        width: 34px;
+        height: 34px;
+        left: 50%;
+        bottom: 14px;
+        transform: translate(-50%, 0);
+        cursor: grab;
+        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+      }
+      .game-ball.dragging {
+        cursor: grabbing;
+      }
+      .game-ball svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .aim-line {
+        position: absolute;
+        pointer-events: none;
+        stroke: var(--amber-soft);
+        stroke-width: 2;
+        stroke-dasharray: 4 5;
+        opacity: 0;
+      }
+      .toast {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.6);
+        font-family: "Fraunces", serif;
+        font-weight: 600;
+        font-size: 26px;
+        color: var(--amber-soft);
+        opacity: 0;
+        pointer-events: none;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+      }
+      .toast.show {
+        animation: toast-pop 0.7s ease forwards;
+      }
+      @keyframes toast-pop {
+        0% {
+          opacity: 0;
+          transform: translate(-50%, -30%) scale(0.5);
+        }
+        30% {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1.1);
+        }
+        60% {
+          transform: translate(-50%, -50%) scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -65%) scale(1);
+        }
+      }
+      .game-hint {
+        margin-top: 10px;
+        font-size: 11.5px;
+        color: var(--text-soft);
+        text-align: center;
+      }
+      .confetti-piece {
+        position: absolute;
+        top: 30%;
+        border-radius: 2px;
+        pointer-events: none;
+      }
+
       footer {
         margin-top: 44px;
         padding-top: 20px;
@@ -335,26 +466,41 @@
         .nav-btn {
           padding: 8px 14px;
         }
+
+        .game-court {
+          height: 260px;
+        }
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1.7fr 1fr;
+        gap: 28px;
+        align-items: start;
+        margin-top: 20px;
+      }
+      .journal-column {
+        min-width: 0;
+      }
+      .carousel-track-wrap,
+      .game-section {
+        max-width: none;
+      }
+      .game-section {
+        margin: 0;
+        height: fit-content;
+      }
+      @media (max-width: 900px) {
+        .content-grid {
+          grid-template-columns: 1fr;
+        }
+        .game-section {
+          margin-top: 28px;
+        }
       }
     </style>
   </head>
   <body>
-    <!--
-  COURT DIMENSIONS (FIBA proportional):
-  ViewBox: 0 0 940 500
-  Court rect: x=20 y=20 w=900 h=460  → center (470, 250)
-  Scale: 900px = 28m, 460px = 15m
-  Basket left:  (72, 250)   [1.575/28 * 900 + 20 ≈ 72]
-  Basket right: (868, 250)
-  Key width: 4.9/15*460 ≈ 150px → y=175 to y=325
-  Key length: 5.8/28*900 ≈ 186px
-  FT circle radius: 1.8/15*460 ≈ 55px
-  3pt radius: 6.75/15*460 ≈ 207px
-  3pt straight section y: 0.9/15*460 ≈ 27.6 → y=48, y=452
-  3pt arc starts at x ≈ 72 + sqrt(207²-(250-48)²) ≈ 72+45 = 117
--->
-
-    <!-- Full-page court background -->
     <svg
       class="court-bg"
       viewBox="0 0 940 500"
@@ -362,53 +508,30 @@
       xmlns="http://www.w3.org/2000/svg"
     >
       <g fill="none" stroke="#16243d" stroke-width="2" opacity="0.07">
-        <!-- boundary -->
         <rect x="20" y="20" width="900" height="460" />
-        <!-- half-court line -->
         <line x1="470" y1="20" x2="470" y2="480" />
-        <!-- center circle + dot -->
         <circle cx="470" cy="250" r="55" />
-        <line x1="470" y1="220" x2="470" y2="280" />
 
-        <!-- ── LEFT SIDE ── -->
-        <!-- key rectangle -->
-        <rect x="20" y="175" width="186" height="150" />
-        <!-- backboard -->
-        <line x1="42" y1="228" x2="42" y2="272" />
-        <!-- basket -->
-        <circle cx="72" cy="250" r="13" />
-        <!-- free throw circle: solid half (toward basket = left half) -->
-        <path d="M 206 195 A 55 55 0 0 0 206 305" />
-        <!-- free throw circle: dashed half (toward center = right half) -->
-        <path d="M 206 195 A 55 55 0 0 1 206 305" stroke-dasharray="5 4" />
-        <!-- 3pt line: straight top -->
-        <line x1="20" y1="48" x2="117" y2="48" />
-        <!-- 3pt arc from top-straight-end to bottom-straight-end, sweeping right around basket -->
-        <path d="M 117 48 A 207 207 0 0 1 117 452" />
-        <!-- 3pt line: straight bottom -->
-        <line x1="117" y1="452" x2="20" y2="452" />
+        <rect x="20" y="170" width="170" height="160" />
+        <line x1="50" y1="220" x2="50" y2="280" />
+        <circle cx="65" cy="250" r="12" />
+        <path d="M 190 170 A 80 80 0 0 1 190 330" />
+        <path d="M 190 170 A 80 80 0 0 0 190 330" stroke-dasharray="6 5" />
+        <line x1="20" y1="50" x2="110" y2="50" />
+        <path d="M 110 50 A 215 215 0 0 1 110 450" />
+        <line x1="110" y1="450" x2="20" y2="450" />
 
-        <!-- ── RIGHT SIDE (mirrored) ── -->
-        <!-- key rectangle -->
-        <rect x="734" y="175" width="186" height="150" />
-        <!-- backboard -->
-        <line x1="898" y1="228" x2="898" y2="272" />
-        <!-- basket -->
-        <circle cx="868" cy="250" r="13" />
-        <!-- free throw circle: solid half (toward basket = right half) -->
-        <path d="M 734 195 A 55 55 0 0 1 734 305" />
-        <!-- free throw circle: dashed half (toward center = left half) -->
-        <path d="M 734 195 A 55 55 0 0 0 734 305" stroke-dasharray="5 4" />
-        <!-- 3pt line: straight top -->
-        <line x1="920" y1="48" x2="823" y2="48" />
-        <!-- 3pt arc -->
-        <path d="M 823 48 A 207 207 0 0 0 823 452" />
-        <!-- 3pt line: straight bottom -->
-        <line x1="823" y1="452" x2="920" y2="452" />
+        <rect x="750" y="170" width="170" height="160" />
+        <line x1="890" y1="220" x2="890" y2="280" />
+        <circle cx="875" cy="250" r="12" />
+        <path d="M 750 170 A 80 80 0 0 0 750 330" />
+        <path d="M 750 170 A 80 80 0 0 1 750 330" stroke-dasharray="6 5" />
+        <line x1="920" y1="50" x2="830" y2="50" />
+        <path d="M 830 50 A 215 215 0 0 0 830 450" />
+        <line x1="830" y1="450" x2="920" y2="450" />
       </g>
     </svg>
 
-    <!-- Hero with matching court lines -->
     <div class="hero">
       <svg
         class="hero-court"
@@ -420,23 +543,22 @@
           <rect x="20" y="20" width="900" height="460" />
           <line x1="470" y1="20" x2="470" y2="480" />
           <circle cx="470" cy="250" r="55" />
-          <line x1="470" y1="220" x2="470" y2="280" />
-          <rect x="20" y="175" width="186" height="150" />
-          <line x1="42" y1="228" x2="42" y2="272" />
-          <circle cx="72" cy="250" r="13" />
-          <path d="M 206 195 A 55 55 0 0 0 206 305" />
-          <path d="M 206 195 A 55 55 0 0 1 206 305" stroke-dasharray="5 4" />
-          <line x1="20" y1="48" x2="117" y2="48" />
-          <path d="M 117 48 A 207 207 0 0 1 117 452" />
-          <line x1="117" y1="452" x2="20" y2="452" />
-          <rect x="734" y="175" width="186" height="150" />
-          <line x1="898" y1="228" x2="898" y2="272" />
-          <circle cx="868" cy="250" r="13" />
-          <path d="M 734 195 A 55 55 0 0 1 734 305" />
-          <path d="M 734 195 A 55 55 0 0 0 734 305" stroke-dasharray="5 4" />
-          <line x1="920" y1="48" x2="823" y2="48" />
-          <path d="M 823 48 A 207 207 0 0 0 823 452" />
-          <line x1="823" y1="452" x2="920" y2="452" />
+          <rect x="20" y="170" width="170" height="160" />
+          <line x1="50" y1="220" x2="50" y2="280" />
+          <circle cx="65" cy="250" r="12" />
+          <path d="M 190 170 A 80 80 0 0 1 190 330" />
+          <path d="M 190 170 A 80 80 0 0 0 190 330" stroke-dasharray="6 5" />
+          <line x1="20" y1="50" x2="110" y2="50" />
+          <path d="M 110 50 A 215 215 0 0 1 110 450" />
+          <line x1="110" y1="450" x2="20" y2="450" />
+          <rect x="750" y="170" width="170" height="160" />
+          <line x1="890" y1="220" x2="890" y2="280" />
+          <circle cx="875" cy="250" r="12" />
+          <path d="M 750 170 A 80 80 0 0 0 750 330" />
+          <path d="M 750 170 A 80 80 0 0 1 750 330" stroke-dasharray="6 5" />
+          <line x1="920" y1="50" x2="830" y2="50" />
+          <path d="M 830 50 A 215 215 0 0 0 830 450" />
+          <line x1="830" y1="450" x2="920" y2="450" />
         </g>
       </svg>
 
@@ -467,144 +589,320 @@
       </div>
     </div>
 
-    <!-- Body -->
     <div class="body-wrap">
-      <div class="carousel-track-wrap">
-        <div class="carousel-track" id="track">
-          <!-- most recent first -->
+      <div class="content-grid">
+        <div class="journal-column">
+          <div class="carousel-track-wrap">
+            <div class="carousel-track" id="track">
+              <div class="entry-card">
+                <div class="entry-top">
+                  <div class="entry-label">Journal 3</div>
+                </div>
+                <div class="entry-meta">July 24, 2026</div>
+                <div class="entry-body">
+                  <p>
+                    When I was younger, I was often discouraged from trying
+                    sports like basketball, traditionally labeled as "men's
+                    sports," because of social norms that dictated the game was
+                    only for those who were "naturally stronger or taller."
+                    However, as I grew in a gender-inclusive environment, I
+                    found the courage to defy those rigid archetypes. Joining my
+                    high school intramurals team was my first real step toward
+                    breaking those stereotypes, and along the way, I genuinely
+                    fell in love with the sport.
+                  </p>
+                  <p>
+                    Entering college, I deeply yearned for another opportunity
+                    to play, and getting into this PE basketball class was a
+                    long-awaited homecoming. This class was more than just a
+                    course or a temporary stress reliever during a tough midyear
+                    term; it was a rediscovery of what I love. It reminded me
+                    how much I adore the sound of shoes squeaking and balls
+                    dribbling on the court, the intensity of 3x3 and 5x5 games,
+                    and above all, the shared passion and focus of everyone
+                    aiming for a win, regardless of physical fitness levels.
+                    Participating in this class reaffirmed that my place on the
+                    court is valid, earned, and completely mine.
+                  </p>
+                  <p>
+                    The biggest lesson I will carry forward is resilience and
+                    mental presence under pressure. On the court, when the game
+                    is live, external struggles, whether academic stress from
+                    major subjects or personal conflicts, fade away. All that
+                    matters is the ball shooting straight to the hoop and the
+                    shared goal of the team. This class taught me that even when
+                    you slip and fall on the court, you stand right back up
+                    because of focus and dedication.
+                  </p>
+                  <p>
+                    Just like analyzing scores, wins, and losses after a match,
+                    academic setbacks or career hurdles aren't end points — they
+                    are feedback. The focus I developed on the court helps me
+                    reset, learn from mistakes, and push forward through heavy
+                    workloads. Additionally, the court provided a healthy outlet
+                    to set aside daily anxieties, recharge, and return to life
+                    with renewed energy. This experience has motivated me to
+                    step out of my comfort zone further and apply for UP Bolera
+                    (the women's basketball club of UP), in the hopes that I
+                    would keep this powerful outlet, mindset, and community in
+                    my life.
+                  </p>
+                </div>
+              </div>
 
-          <div class="entry-card">
-            <div class="entry-top">
-              <div class="entry-label">Journal 3</div>
-            </div>
-            <div class="entry-meta">July 24, 2026</div>
-            <div class="entry-body">
-              <p>
-                For the past week of playing basketball, I have realized that I
-                have forgotten most of what I learned a year ago. While I still
-                remember how to dribble and shoot, I have a lot more to learn
-                when it comes to team tactics and defense. Even though I need
-                more training on these skills, being with my classmates
-                motivates me to do my best, despite the hot and humid
-                environment. Whenever the ball goes through the hoop, I feel
-                proud because I used to tell myself that I was horrible at
-                shooting.
-              </p>
-              <p>
-                I really want to master my dribbling; surprisingly, my right
-                hand has more control over the ball than my left, even though I
-                am left-handed. I also want to improve my shooting, especially
-                in a game setting, as I have a tendency to panic and rush my
-                shot with less-than-ideal form. Having these goals motivates me
-                to work harder because I truly enjoy playing the sport.
-              </p>
+              <div class="entry-card">
+                <div class="entry-top">
+                  <div class="entry-label">Journal 2</div>
+                </div>
+                <div class="entry-meta">July 10, 2026</div>
+                <div class="entry-body">
+                  <p>
+                    Practicing basketball individually allowed me to focus
+                    heavily on my personal mechanics, primarily shooting and
+                    dribbling. However, transitioning to 3x3 games made me
+                    realize how many aspects of the sport I have yet to master,
+                    communication in particular. I have learned the value of
+                    strategizing as a team and reading the game through our
+                    collective body language. Furthermore, being part of a team
+                    has shown me how our diverse skill sets complement one
+                    another. I realized that my teammates often excel where I
+                    struggle, allowing us to balance out our individual
+                    weaknesses and bring out each other's strengths.
+                  </p>
+                  <p>
+                    Our team finds its strongest synergy when we are on defense.
+                    While we still occasionally struggle under pressure when we
+                    possess the ball (sometimes letting panic disrupt our
+                    passing game), I have noticed a significant improvement in
+                    how we handle high-stress moments lately. These minor
+                    setbacks can easily be resolved with more practice and
+                    in-game experience.
+                  </p>
+                  <p>
+                    Because our team has grown incredibly close, teamwork and
+                    cooperation come naturally to us; everyone gives their
+                    absolute best effort to execute the specific roles that
+                    align with our playing styles. On a personal level, defense
+                    is my strongest asset. My classmates often mention how
+                    difficult it is to break past my defense or to guard me when
+                    I am on the move. While my teammates have pointed out that I
+                    excel as the "drive of the game" — acting as the primary
+                    ball-handler in the middle to control the pace — I honestly
+                    feel I still have room to grow in that role. Moving forward,
+                    I want to actively hone my skills by focusing on my blocking
+                    and stealing to become a more well-rounded player.
+                  </p>
+                </div>
+              </div>
+
+              <div class="entry-card">
+                <div class="entry-top">
+                  <div class="entry-label">Journal 1</div>
+                </div>
+                <div class="entry-meta">June 30, 2026</div>
+                <div class="entry-body">
+                  <p>
+                    For the past week of playing basketball, I have realized
+                    that I have forgotten most of what I learned a year ago.
+                    While I still remember how to dribble and shoot, I have a
+                    lot more to learn when it comes to team tactics and defense.
+                    Even though I need more training on these skills, being with
+                    my classmates motivates me to do my best, despite the hot
+                    and humid environment. Whenever the ball goes through the
+                    hoop, I feel proud because I used to tell myself that I was
+                    horrible at shooting.
+                  </p>
+                  <p>
+                    I really want to master my dribbling; surprisingly, my right
+                    hand has more control over the ball than my left, even
+                    though I am left-handed. I also want to improve my shooting,
+                    especially in a game setting, as I have a tendency to panic
+                    and rush my shot with less-than-ideal form. Having these
+                    goals motivates me to work harder because I truly enjoy
+                    playing the sport.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- older entry, right arrow -->
-          <div class="entry-card">
-            <div class="entry-top">
-              <div class="entry-label">Journal 2</div>
+          <div class="nav-row">
+            <button class="nav-btn" id="prevBtn" onclick="move(-1)" disabled>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+              Newer
+            </button>
+            <div class="dots" id="dots"></div>
+            <button class="nav-btn" id="nextBtn" onclick="move(1)">
+              Older
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="game-section">
+          <div class="game-head">
+            <div class="game-title">
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#c5762a"
+                stroke-width="1.8"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path
+                  d="M3 12h18M12 3c2.5 2.5 2.5 15.5 0 18M12 3c-2.5 2.5-2.5 15.5 0 18"
+                />
+              </svg>
+              Free Throw Break
             </div>
-            <div class="entry-meta">July 10, 2026</div>
-            <div class="entry-body">
-              <p>
-                Practicing basketball individually allowed me to focus heavily
-                on my personal mechanics, primarily shooting and dribbling.
-                However, transitioning to 3x3 games made me realize how many
-                aspects of the sport I have yet to master, communication in
-                particular. I have learned the value of strategizing as a team
-                and reading the game through our collective body language.
-                Furthermore, being part of a team has shown me how our diverse
-                skill sets complement one another. I realized that my teammates
-                often excel where I struggle, allowing us to balance out our
-                individual weaknesses and bring out each other's strengths.
-              </p>
-              <p>
-                Our team finds its strongest synergy when we are on defense.
-                While we still occasionally struggle under pressure when we
-                possess the ball (sometimes letting panic disrupt our passing
-                game), I have noticed a significant improvement in how we handle
-                high-stress moments lately. These minor setbacks can easily be
-                resolved with more practice and in-game experience.
-              </p>
-              <p>
-                Because our team has grown incredibly close, teamwork and
-                cooperation come naturally to us; everyone gives their absolute
-                best effort to execute the specific roles that align with our
-                playing styles. On a personal level, defense is my strongest
-                asset. My classmates often mention how difficult it is to break
-                past my defense or to guard me when I am on the move. While my
-                teammates have pointed out that I excel as the "drive of the
-                game" — acting as the primary ball-handler in the middle to
-                control the pace — I honestly feel I still have room to grow in
-                that role. Moving forward, I want to actively hone my skills by
-                focusing on my blocking and stealing to become a more
-                well-rounded player.
-              </p>
+            <div class="game-stats">
+              <span><b id="statMakes">0</b>makes</span>
+              <span><b id="statAttempts">0</b>attempts</span>
+              <span><b id="statStreak">0</b>streak</span>
             </div>
           </div>
-
-          <!-- older entry, right arrow -->
-          <div class="entry-card">
-            <div class="entry-top">
-              <div class="entry-label">Journal 1</div>
+          <div class="game-sub">
+            Drag the ball up toward the hoop and let go — release fast for more
+            arc. A little study break, courtesy of your journal.
+          </div>
+          <div class="game-court" id="gameCourt">
+            <svg
+              class="court-lines"
+              viewBox="0 0 400 300"
+              preserveAspectRatio="none"
+            >
+              <g fill="none" stroke="#ffffff" stroke-width="2" opacity="0.18">
+                <line x1="140" y1="20" x2="260" y2="20" stroke-width="3" />
+                <rect x="130" y="20" width="140" height="130" />
+                <path d="M 130 150 A 70 70 0 0 0 270 150" />
+                <path
+                  d="M 130 150 A 70 70 0 0 1 270 150"
+                  stroke-dasharray="5 4"
+                />
+                <path d="M 50 20 L 50 60 A 180 180 0 0 0 350 60 L 350 20" />
+              </g>
+            </svg>
+            <div class="hoop-wrap" id="hoopWrap">
+              <svg viewBox="0 0 92 46" xmlns="http://www.w3.org/2000/svg">
+                <rect
+                  x="16"
+                  y="2"
+                  width="60"
+                  height="22"
+                  fill="none"
+                  stroke="#e8e2d3"
+                  stroke-width="2"
+                  opacity="0.85"
+                />
+                <ellipse
+                  cx="46"
+                  cy="24"
+                  rx="18"
+                  ry="5"
+                  fill="none"
+                  stroke="#c5762a"
+                  stroke-width="3.5"
+                />
+                <path
+                  d="M28 25 L32 42 M37 25 L39 44 M46 25 L46 45 M55 25 L53 44 M64 25 L60 42"
+                  stroke="#e8e2d3"
+                  stroke-width="1.2"
+                  opacity="0.6"
+                />
+              </svg>
             </div>
-            <div class="entry-meta">June 30, 2026</div>
-            <div class="entry-body">
-              <p>
-                For the past week of playing basketball, I have realized that I
-                have forgotten most of what I learned a year ago. While I still
-                remember how to dribble and shoot, I have a lot more to learn
-                when it comes to team tactics and defense. Even though I need
-                more training on these skills, being with my classmates
-                motivates me to do my best, despite the hot and humid
-                environment. Whenever the ball goes through the hoop, I feel
-                proud because I used to tell myself that I was horrible at
-                shooting.
-              </p>
-              <p>
-                I really want to master my dribbling; surprisingly, my right
-                hand has more control over the ball than my left, even though I
-                am left-handed. I also want to improve my shooting, especially
-                in a game setting, as I have a tendency to panic and rush my
-                shot with less-than-ideal form. Having these goals motivates me
-                to work harder because I truly enjoy playing the sport.
-              </p>
+            <div
+              class="aim-line"
+              id="aimSvgHolder"
+              style="position: absolute; inset: 0; width: 100%; height: 100%"
+            >
+              <svg
+                width="100%"
+                height="100%"
+                style="position: absolute; inset: 0"
+              >
+                <line
+                  id="aimLine"
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="0"
+                  stroke="#e8b87a"
+                  stroke-width="2"
+                  stroke-dasharray="4 5"
+                  opacity="0"
+                />
+              </svg>
             </div>
+            <div class="game-ball" id="gameBall">
+              <svg viewBox="0 0 100 100">
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="46"
+                  fill="#c5762a"
+                  stroke="#8a5019"
+                  stroke-width="2"
+                />
+                <path
+                  d="M50 4 V96 M4 50 H96"
+                  stroke="#8a5019"
+                  stroke-width="2.5"
+                  fill="none"
+                />
+                <path
+                  d="M14 14 A 51 51 0 0 1 50 4 A 51 51 0 0 1 14 14"
+                  stroke="#8a5019"
+                  stroke-width="2.5"
+                  fill="none"
+                />
+                <path
+                  d="M86 14 A 51 51 0 0 0 50 4 A 51 51 0 0 0 86 14"
+                  stroke="#8a5019"
+                  stroke-width="2.5"
+                  fill="none"
+                />
+                <path
+                  d="M14 86 A 51 51 0 0 0 50 96 A 51 51 0 0 0 14 86"
+                  stroke="#8a5019"
+                  stroke-width="2.5"
+                  fill="none"
+                />
+                <path
+                  d="M86 86 A 51 51 0 0 1 50 96 A 51 51 0 0 1 86 86"
+                  stroke="#8a5019"
+                  stroke-width="2.5"
+                  fill="none"
+                />
+              </svg>
+            </div>
+            <div class="toast" id="toast">SWISH!</div>
+          </div>
+          <div class="game-hint">
+            drag from the ball, aim at the hoop, release
           </div>
         </div>
       </div>
 
-      <div class="nav-row">
-        <button class="nav-btn" id="prevBtn" onclick="move(-1)" disabled>
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
-          Newer
-        </button>
-        <div class="dots" id="dots"></div>
-        <button class="nav-btn" id="nextBtn" onclick="move(1)">
-          Older
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path d="M9 18l6-6-6-6" />
-          </svg>
-        </button>
-      </div>
-
       <footer>
         <span>PE 2 BS-W · Midyear 2026</span>
-        <span id="footer-date">Last updated July 7, 2026</span>
+        <span id="footer-date">Last updated July 24, 2026</span>
       </footer>
     </div>
 
@@ -615,7 +913,7 @@
       const prevBtn = document.getElementById("prevBtn");
       const nextBtn = document.getElementById("nextBtn");
       const footerDate = document.getElementById("footer-date");
-      const dates = ["July 7, 2026", "June 30, 2026"];
+      const dates = ["July 24, 2026", "July 10, 2026", "June 30, 2026"];
       let current = 0;
       const total = cards.length;
 
@@ -641,6 +939,264 @@
       function move(dir) {
         goTo(Math.max(0, Math.min(total - 1, current + dir)));
       }
+
+      /* ───────────────────────────────
+         Mini shoot-the-ball game
+      ─────────────────────────────── */
+      (function shootGame() {
+        const court = document.getElementById("gameCourt");
+        const ball = document.getElementById("gameBall");
+        const hoopWrap = document.getElementById("hoopWrap");
+        const aimLine = document.getElementById("aimLine");
+        const toast = document.getElementById("toast");
+        const statMakes = document.getElementById("statMakes");
+        const statAttempts = document.getElementById("statAttempts");
+        const statStreak = document.getElementById("statStreak");
+
+        let makes = 0,
+          attempts = 0,
+          streak = 0;
+
+        let restX, restY;
+        function computeRest() {
+          const cw = court.clientWidth;
+          const ch = court.clientHeight;
+          restX = cw / 2;
+          restY = ch - 14 - 17;
+        }
+
+        let bx = 0,
+          by = 0;
+        let dragging = false;
+        let dragStartX = 0,
+          dragStartY = 0;
+        let inFlight = false;
+
+        function setBallPos(cx, cy) {
+          bx = cx;
+          by = cy;
+          ball.style.left = cx + "px";
+          ball.style.top = cy + "px";
+          ball.style.transform = "translate(-50%, -50%)";
+        }
+
+        function resetBall() {
+          computeRest();
+          setBallPos(restX, restY);
+          inFlight = false;
+        }
+
+        requestAnimationFrame(() => {
+          resetBall();
+        });
+        window.addEventListener("resize", () => {
+          if (!dragging && !inFlight) resetBall();
+        });
+
+        function getHoopTarget() {
+          const cRect = court.getBoundingClientRect();
+          const hRect = hoopWrap.getBoundingClientRect();
+          return {
+            x: hRect.left - cRect.left + hRect.width / 2,
+            y: hRect.top - cRect.top + hRect.height / 2 + 12,
+          };
+        }
+
+        function showAim(fromX, fromY, toX, toY) {
+          aimLine.setAttribute("x1", fromX);
+          aimLine.setAttribute("y1", fromY);
+          aimLine.setAttribute("x2", toX);
+          aimLine.setAttribute("y2", toY);
+          aimLine.style.opacity = 0.55;
+        }
+        function hideAim() {
+          aimLine.style.opacity = 0;
+        }
+
+        function pointerPos(e, rect) {
+          const t = e.touches ? e.touches[0] : e;
+          return { x: t.clientX - rect.left, y: t.clientY - rect.top };
+        }
+
+        function onDown(e) {
+          if (inFlight) return;
+          dragging = true;
+          ball.classList.add("dragging");
+          const rect = court.getBoundingClientRect();
+          const p = pointerPos(e, rect);
+          dragStartX = p.x;
+          dragStartY = p.y;
+        }
+
+        function onMove(e) {
+          if (!dragging) return;
+          const rect = court.getBoundingClientRect();
+          const p = pointerPos(e, rect);
+          const dx = p.x - dragStartX;
+          const dy = p.y - dragStartY;
+          const pulledX = restX + dx * 0.55;
+          const pulledY = restY + dy * 0.55;
+          setBallPos(pulledX, pulledY);
+          showAim(pulledX, pulledY, getHoopTarget().x, getHoopTarget().y);
+          e.preventDefault && e.preventDefault();
+        }
+
+        function onUp(e) {
+          if (!dragging) return;
+          dragging = false;
+          ball.classList.remove("dragging");
+          hideAim();
+
+          const dx = bx - restX;
+          const dy = by - restY;
+          const pullDist = Math.hypot(dx, dy);
+
+          if (pullDist < 14) {
+            resetBall();
+            return;
+          }
+
+          const hoop = getHoopTarget();
+          const slingX = restX - dx;
+          const targetX = slingX * 0.55 + hoop.x * 0.45;
+          const targetY = hoop.y;
+
+          attempts++;
+          statAttempts.textContent = attempts;
+          inFlight = true;
+
+          animateShot(targetX, targetY, pullDist);
+        }
+
+        function animateShot(targetX, targetY, power) {
+          const duration = 620;
+          const startX = bx,
+            startY = by;
+          const arcHeight = 90 + Math.min(power, 140) * 0.5;
+          const t0 = performance.now();
+
+          const hoop = getHoopTarget();
+          const aimError = Math.abs(targetX - hoop.x);
+          const willMake = aimError < 30 && power > 40 && power < 220;
+
+          const finalX = willMake
+            ? hoop.x + (Math.random() * 6 - 3)
+            : hoop.x +
+              (aimError < 30 ? 60 : aimError) *
+                (Math.random() < 0.5 ? -1 : 1) *
+                0.6 +
+              (Math.random() * 20 - 10);
+
+          function frame(now) {
+            let p = (now - t0) / duration;
+            if (p > 1) p = 1;
+            const ease = p;
+            const curX = startX + (finalX - startX) * ease;
+            const baseY = startY + (hoop.y - startY) * ease;
+            const arc = Math.sin(Math.PI * ease) * arcHeight;
+            const curY = baseY - arc;
+
+            setBallPos(curX, curY);
+            ball.style.transform = `translate(-50%, -50%) rotate(${
+              ease * 480
+            }deg)`;
+
+            if (p < 1) {
+              requestAnimationFrame(frame);
+            } else {
+              if (willMake) {
+                makeShot();
+              } else {
+                missShot();
+              }
+            }
+          }
+          requestAnimationFrame(frame);
+        }
+
+        function popToast(text, color) {
+          toast.textContent = text;
+          toast.style.color = color;
+          toast.classList.remove("show");
+          void toast.offsetWidth;
+          toast.classList.add("show");
+        }
+
+        function makeShot() {
+          makes++;
+          streak++;
+          statMakes.textContent = makes;
+          statStreak.textContent = streak;
+          const msgs = ["SWISH!", "NICE!", "BUCKET!", "GOT IT!"];
+          popToast(msgs[Math.floor(Math.random() * msgs.length)], "#e8b87a");
+          burstConfetti();
+          setTimeout(resetBall, 350);
+        }
+
+        function missShot() {
+          streak = 0;
+          statStreak.textContent = streak;
+          popToast("so close", "rgba(255,255,255,0.55)");
+          setTimeout(resetBall, 350);
+        }
+
+        function burstConfetti() {
+          const hoop = getHoopTarget();
+          const colors = ["#c5762a", "#e8b87a", "#fffdf8", "#8a5019"];
+          for (let i = 0; i < 14; i++) {
+            const piece = document.createElement("div");
+            piece.className = "confetti-piece";
+            const size = 4 + Math.random() * 4;
+            piece.style.width = size + "px";
+            piece.style.height = size * 1.6 + "px";
+            piece.style.background =
+              colors[Math.floor(Math.random() * colors.length)];
+            piece.style.left = hoop.x + "px";
+            piece.style.top = hoop.y + "px";
+            court.appendChild(piece);
+
+            const angle = Math.random() * Math.PI * 2;
+            const dist = 30 + Math.random() * 60;
+            const endX = Math.cos(angle) * dist;
+            const endY = Math.sin(angle) * dist + 30;
+            const rot = Math.random() * 720 - 360;
+            const dur = 500 + Math.random() * 400;
+
+            piece.animate(
+              [
+                { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
+                {
+                  transform: `translate(${endX}px, ${endY}px) rotate(${rot}deg)`,
+                  opacity: 0,
+                },
+              ],
+              { duration: dur, easing: "cubic-bezier(.2,.6,.4,1)" },
+            ).onfinish = () => piece.remove();
+          }
+        }
+
+        court.addEventListener("mousedown", (e) => {
+          const rect = court.getBoundingClientRect();
+          const p = pointerPos(e, rect);
+          const d = Math.hypot(p.x - bx, p.y - by);
+          if (d < 40) onDown(e);
+        });
+        window.addEventListener("mousemove", onMove);
+        window.addEventListener("mouseup", onUp);
+
+        court.addEventListener(
+          "touchstart",
+          (e) => {
+            const rect = court.getBoundingClientRect();
+            const p = pointerPos(e, rect);
+            const d = Math.hypot(p.x - bx, p.y - by);
+            if (d < 44) onDown(e);
+          },
+          { passive: true },
+        );
+        window.addEventListener("touchmove", onMove, { passive: false });
+        window.addEventListener("touchend", onUp);
+      })();
     </script>
   </body>
 </html>
